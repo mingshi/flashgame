@@ -1,0 +1,38 @@
+CREATE TABLE `flash_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(40) NOT NULL DEFAULT '',
+  `display_name` varchar(40) NOT NULL DEFAULT '',
+  `weight` int(11) NOT NULL DEFAULT '0',
+  `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `show_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  `alias_id` int(11) NOT NULL DEFAULT '0' COMMENT '指向其它分类',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`category_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `flash_source` (
+  `origin_id` varchar(50) NOT NULL,
+  `new_id` varchar(40) NOT NULL,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`origin_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `flash_task` (
+  `id` char(32) NOT NULL COMMENT 'md5_hex(encode_utf8(lc url))',
+  `url` varchar(255) NOT NULL,
+  `weight` int(11) NOT NULL DEFAULT '0',
+  `instant_weight` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `create_at` int(11) NOT NULL DEFAULT '0',
+  `last_time` int(11) NOT NULL DEFAULT '0',
+  `next_time` int(11) NOT NULL DEFAULT '0',
+  `last_code` int(11) NOT NULL DEFAULT '0',
+  `custom1` varchar(255) DEFAULT NULL,
+  `custom2` varchar(255) DEFAULT NULL,
+  `custom3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status_index` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+
