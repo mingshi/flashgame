@@ -2,20 +2,24 @@ CREATE TABLE `flash_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(40) NOT NULL DEFAULT '',
   `display_name` varchar(40) NOT NULL DEFAULT '',
+  `name_key` char(32) NOT NULL DEFAULT '',
   `weight` int(11) NOT NULL DEFAULT '0',
   `last_update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `show_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否显示',
   `alias_id` int(11) NOT NULL DEFAULT '0' COMMENT '指向其它分类',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `url` (`category_name`)
+  UNIQUE KEY `url` (`category_name`),
+  UNIQUE KEY `name_key` (`name_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
+===============================================================
 CREATE TABLE `flash_source` (
   `origin_id` varchar(50) NOT NULL,
   `new_id` varchar(40) NOT NULL,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`origin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+===============================================================
 
 CREATE TABLE `flash_task` (
   `id` char(32) NOT NULL COMMENT 'md5_hex(encode_utf8(lc url))',
@@ -34,5 +38,35 @@ CREATE TABLE `flash_task` (
   KEY `status_index` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
+CREATE TABLE `collection` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(50) NOT NULL DEFAULT '',
+    `url` varchar(50) NOT NULL DEFAULT '',
+    `origin_id` varchar(50) NOT NULL,
+    `new_id` varchar(40) NOT NULL,
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `origin_id` (`origin_id`),
+    KEY `new_id` (`new_id`),
+    KEY `url` (`url`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
+CREATE TABLE `games` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `url_id` int(11) NOT NULL DEFAULT '0',
+    `name` varchar(255) NOT NULL DEFAULT '',
+    `cate_id` int(11) NOT NULL,
+    `collection_id` varchar(50) NOT NULL DEFAULT '',
+    `size`  int(11) NOT NULL DEFAULT '0',
+    `language` tinyint(1) NOT NULL DEFAULT '0',
+    `pic` varchar(255) NOT NULL DEFAULT '',
+    `swf` varchar(255) NOT NULL DEFAULT '',
+    `origin_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `desc` text,
+    `operate` text,
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `cate_id` (`cate_id`),
+    KEY `language` (`language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 

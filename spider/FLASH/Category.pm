@@ -24,7 +24,7 @@ use base qw(FLASH::DBI);
 
 __PACKAGE__->table('flash_category');
 
-__PACKAGE__->columns(ALL => qw/id category_name display_name last_update_time/);
+__PACKAGE__->columns(ALL => qw/id category_name display_name last_update_time show_status name_key/);
 __PACKAGE__->columns(Primary => qw/id/);
 
 sub accessor_name_for {
@@ -33,6 +33,13 @@ sub accessor_name_for {
     return $column;
 }
 
+sub get_cate_id {
+    my ($class, $name_key) = @_;
+
+    my $r = $class->retrieve(name_key  =>  $name_key);
+
+    return $r ? $r->id : undef;
+}
 __PACKAGE__->has_a(
     last_update_time => 'Time::Piece',
     deflate => 'epoch',
